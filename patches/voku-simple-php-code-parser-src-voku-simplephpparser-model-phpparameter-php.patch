@@ -1,0 +1,29 @@
+--- /dev/null
++++ ../src/voku/SimplePhpParser/Model/PHPParameter.php
+@@ -101,13 +101,24 @@
+             }
+         }
+ 
++        if ($parameter->type !== null
++            && $parameter->type instanceof \PhpParser\Node\NullableType
++        ) {
++            if ($this->type) {
++                $this->type .= '|null';
++
++            } else if (!empty($parameter->type->type->name)) {
++                $typeName = $parameter->type->type->name;
++                $this->type = "$typeName|null";
++            }
++        }
++
+         if (!$this->type && $parameter->type !== null) {
+-            /** @noinspection MissingIssetImplementationInspection */
+             if (empty($parameter->type->name)) {
+-                /** @noinspection MissingIssetImplementationInspection */
+                 if (!empty($parameter->type->parts)) {
+                     $this->type = '\\' . \implode('\\', $parameter->type->parts);
+                 }
++
+             } else {
+                 $this->type = $parameter->type->name;
+             }

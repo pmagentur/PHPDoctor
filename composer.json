@@ -37,7 +37,8 @@
                 "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phptrait-php.patch",
                 "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phpfunction-php.patch",
                 "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phpmethod-php.patch",
-                "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phpclass-php.patch"
+                "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phpclass-php.patch",
+                "patches/voku-simple-php-code-parser-src-voku-simplephpparser-model-phpparameter-php.patch"
             ]
         }
     },
