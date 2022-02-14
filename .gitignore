@@ -19,3 +19,7 @@ build/logs/
 
 # phive
 /tools/
+
+.DS_Store
+
+tmp/

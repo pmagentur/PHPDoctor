@@ -1,0 +1,28 @@
+--- /dev/null
++++ ../src/voku/SimplePhpParser/Model/PHPFunction.php
+@@ -78,19 +78,16 @@
+         }
+ 
+         if (!$this->returnType && $node->returnType) {
+-            if (\method_exists($node->returnType, 'toString')) {
++            if ($node->returnType instanceof \PhpParser\Node\NullableType) {
++                $typeName = \method_exists($node->returnType, 'toString') ? $node->returnType->type->toString() : $node->returnType->type->name;
++                $this->returnType = "$typeName|null";
++
++            } else if (\method_exists($node->returnType, 'toString')) {
+                 $this->returnType = $node->returnType->toString();
++
+             } elseif (\property_exists($node->returnType, 'name')) {
+                 /** @psalm-suppress UndefinedPropertyFetch - FP? */
+                 $this->returnType = $node->returnType->name;
+-            }
+-
+-            if ($node->returnType instanceof \PhpParser\Node\NullableType) {
+-                if ($this->returnType && $this->returnType !== 'null') {
+-                    $this->returnType = 'null|' . $this->returnType;
+-                } else {
+-                    $this->returnType = 'null|mixed';
+-                }
+             }
+         }
+ 

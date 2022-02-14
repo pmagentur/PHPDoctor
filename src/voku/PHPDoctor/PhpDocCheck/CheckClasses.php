@@ -263,6 +263,12 @@ final class CheckClasses
             // reset
             $typeFound = false;
 
+            if ($propertyTypes['typeFromPhpDocMaybeWithComment']
+                && \strpos($propertyTypes['typeFromPhpDocMaybeWithComment'], '<phpdoctor-ignore-this-line/>') !== false
+            ) {
+                continue;
+            }
+
             foreach ($propertyTypes as $key => $type) {
                 if ($key === 'typeFromPhpDocMaybeWithComment' || $key === 'typeFromDefaultValue') {
                     continue;
