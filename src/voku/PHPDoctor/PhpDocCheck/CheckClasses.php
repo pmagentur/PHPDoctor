@@ -76,8 +76,9 @@ final class CheckClasses
             $skipDeprecatedMethods,
             $skipMethodsWithLeadingUnderscore
         ) as $methodName => $methodInfo) {
+
             if (!$skipParseErrorsAsError && $methodInfo['error']) {
-                $error[$methodInfo['file'] ?? ''][] = '[' . ($methodInfo['line'] ?? '?') . ']: ' . $methodInfo['error'];
+                $error[$methodInfo['file'] ?? ''][] = '[' . ($methodInfo['line'] ?? '?') . ']: ' . str_replace("\n", ' ', $methodInfo['error']);
             }
 
             $error = self::checkParameter(
@@ -263,8 +264,10 @@ final class CheckClasses
             // reset
             $typeFound = false;
 
-            if ($propertyTypes['typeFromPhpDocMaybeWithComment']
-                && \strpos($propertyTypes['typeFromPhpDocMaybeWithComment'], '<phpdoctor-ignore-this-line/>') !== false
+            if (
+                $propertyTypes['typeFromPhpDocMaybeWithComment']
+                &&
+                \strpos($propertyTypes['typeFromPhpDocMaybeWithComment'], '<phpdoctor-ignore-this-line/>') !== false
             ) {
                 continue;
             }
