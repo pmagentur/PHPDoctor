@@ -1,13 +1,25 @@
 --- /dev/null
 +++ ../src/voku/SimplePhpParser/Model/PHPMethod.php
-@@ -72,19 +72,16 @@
+@@ -73,19 +73,28 @@
          }
  
          if (!$this->returnType && $node->returnType) {
 -            if (\method_exists($node->returnType, 'toString')) {
 +            if ($node->returnType instanceof \PhpParser\Node\NullableType) {
-+                $typeName = \method_exists($node->returnType, 'toString') ? $node->returnType->type->toString() : $node->returnType->type->name;
-+                $this->returnType = "$typeName|null";
++                $typeNames = '';
++                if (\method_exists($node->returnType, 'toString')) {
++                    $typeNames = $node->returnType->type->toString();
++                } else if (\property_exists($node->returnType->type, 'name')) {
++                    $typeNames = $node->returnType->type->name;
++                } else if (\property_exists($node->returnType->type, 'parts')) {
++                    $typeNames = implode('|', $node->returnType->type->parts);
++                }
++
++                if ($typeNames) {
++                    $typeNames .= '|';
++                }
++
++                $this->returnType = $typeNames.'null';
 +
 +            } else if (\method_exists($node->returnType, 'toString')) {
                  $this->returnType = $node->returnType->toString();
